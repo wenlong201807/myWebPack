@@ -43,25 +43,22 @@ module.exports = class Compiler {
     }
   }
 
-
-  // 出问题了
-
   // 1输出的内容要输出到哪里
   //2
   emitFiles () {
     const outputPath = path.join(this.output.path, this.output.filename)
 
-    let modules = ''
+    let modules = '';
 
     this.modules.map((_module) => {
-      modules = `'${_module.filename}': function(require,module,exports){ ${_module.source}}`
+      modules += `'${_module.filename}': function(require,module,exports){ ${_module.source}},`
     })
     // bundle 应该是一个自执行函数
     // key 是一个文件名，value是一个函数（文件内容）
     const bundle = `(function(modules){
       function require(filename){
         var fn = modules[filename];
-        var modules = { exprots:{}};
+        var module = { exprots:{}};
 
         fn(require,module,module.exports);
 
