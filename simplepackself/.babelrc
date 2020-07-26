@@ -1,0 +1,5 @@
+{
+  "presets": [
+    "@babel/preset-env"  // 需要指定对应版本的，否则报错babel-preset-env
+  ]
+}
