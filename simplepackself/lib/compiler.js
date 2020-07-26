@@ -54,7 +54,7 @@ module.exports = class Compiler {
     let modules = ''
 
     this.modules.map((_module) => {
-      modules = `${_module.filename}: function(require,module,exports){ ${_module.source}}`
+      modules = `'${_module.filename}': function(require,module,exports){ ${_module.source}}`
     })
     // bundle 应该是一个自执行函数
     // key 是一个文件名，value是一个函数（文件内容）
@@ -68,11 +68,11 @@ module.exports = class Compiler {
         return module.exports;
       }
 
-      require(${this.entry})
-    })(${modules})`
+      require('${this.entry}')
+    })({${modules}})`
 
     console.log('bundle.js:', bundle)
 
-    // fs.writeFileSync(outputPath, bundle, 'utf-8')
+    fs.writeFileSync(outputPath, bundle, 'utf-8') // 输出文件到指定的dist/main.js
   }
 }
