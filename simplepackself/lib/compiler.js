@@ -14,17 +14,6 @@ module.exports = class Compiler {
   run () {
     const entryModule = this.buildModule(this.entry, true)
     // console.log(entryModule) // 对象，包含文件名，依赖的js，资源内容
-    /*
-    {
-  filename: 'D:\\gitCode\\webpack\\simplepackself\\src\\index.js',
-  dependencies: [ './greeting' ],
-  source: '"use strict";\n' +
-    '\n' +
-    'var _greeting = require("./greeting");\n' +
-    '\n' +
-    "document.write((0, _greeting.greeting)('Jane'));"
-}
-    */
     this.modules.push(entryModule)
 
     this.modules.map((_module) => {
@@ -33,34 +22,8 @@ module.exports = class Compiler {
       })
     })
 
-    console.log(this.modules) // 此时需要引入文件的后缀名
-    /*
-    [
-  {
-    filename: 'D:\\gitCode\\webpack\\simplepackself\\src\\index.js',
-    dependencies: [ './greeting.js' ],
-    source: '"use strict";\n' +
-      '\n' +
-      'var _greeting = require("./greeting.js");\n' +
-      '\n' +
-      "document.write((0, _greeting.greeting)('Jane'));"
-  },
-  {
-    filename: './greeting.js',
-    dependencies: [],
-    source: '"use strict";\n' +
-      '\n' +
-      'Object.defineProperty(exports, "__esModule", {\n' +
-      '  value: true\n' +
-      '});\n' +
-      'exports.greeting = greeting;\n' +
-      'function greeting(name) {\n' +
-      "  console.log('greeting:', name);\n" +
-      '}'
-  }
-]
-    */
-    
+    // console.log(this.modules) // 此时需要引入文件的后缀名
+
     this.emitFiles() // 将构建的文件导出
   }
 
@@ -82,8 +45,11 @@ module.exports = class Compiler {
 
 
   // 出问题了
+
+  // 1输出的内容要输出到哪里
+  //2
   emitFiles () {
-    const outputPath = path.join(this.output.path,this.output.filename)
+    const outputPath = path.join(this.output.path, this.output.filename)
 
     let modules = ''
 
@@ -105,8 +71,8 @@ module.exports = class Compiler {
       require(${this.entry})
     })(${modules})`
 
-    console.log('bundle.js:',bundle)
+    console.log('bundle.js:', bundle)
 
-    fs.writeFileSync(outputPath,bundle,'utf-8')
+    // fs.writeFileSync(outputPath, bundle, 'utf-8')
   }
 }
