@@ -1,5 +1,8 @@
 const { getAST, getDependecies, tranform } = require('./parser')
 const path = require('path')
+const fs = require('fs')
+
+
 module.exports = class Compiler {
 
   constructor(options) {
@@ -77,7 +80,33 @@ module.exports = class Compiler {
     }
   }
 
-  emitFiles () {
 
+  // 出问题了
+  emitFiles () {
+    const outputPath = path.join(this.output.path,this.output.filename)
+
+    let modules = ''
+
+    this.modules.map((_module) => {
+      modules = `${_module.filename}: function(require,module,exports){ ${_module.source}}`
+    })
+    // bundle 应该是一个自执行函数
+    // key 是一个文件名，value是一个函数（文件内容）
+    const bundle = `(function(modules){
+      function require(filename){
+        var fn = modules[filename];
+        var modules = { exprots:{}};
+
+        fn(require,module,module.exports);
+
+        return module.exports;
+      }
+
+      require(${this.entry})
+    })(${modules})`
+
+    console.log('bundle.js:',bundle)
+
+    fs.writeFileSync(outputPath,bundle,'utf-8')
   }
 }
