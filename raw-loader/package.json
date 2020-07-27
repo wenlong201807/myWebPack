@@ -11,5 +11,8 @@
   "license": "ISC",
   "devDependencies": {
     "loader-runner": "^4.0.0"
+  },
+  "dependencies": {
+    "loader-utils": "^2.0.0"
   }
 }
