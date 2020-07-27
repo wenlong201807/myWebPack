@@ -5,14 +5,18 @@ const path = require('path')
 module.exports = function (source) {
   const { name } = loaderUtils.getOptions(this)
   // console.log('name', name)
-  const callback = this.async()
+  this.cacheable(false) // 关闭loader的缓存
+  const callback = this.async() // 异步处理核心
   const json = JSON.stringify(source)
     .replace('zhu', 'dragon')
     .replace(/\u2028/g, '\\u2028')
     .replace(/\u2029/g, '\\u2029')
-  
-  fs.readFile(path.join(__dirname, './async.txt'), 'utf-8',(err, result) => {
-    callback(null,result)
+
+  fs.readFile(path.join(__dirname, './async.txt'), 'utf-8', (err, result) => {
+    if (err) {
+      callback(err, '')
+    }
+    callback(null, result)
   })
 
 
