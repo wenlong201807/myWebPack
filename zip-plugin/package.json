@@ -16,6 +16,6 @@
     "webpack-cli": "^3.3.12"
   },
   "dependencies": {
-    "jszip": "^3.5.0"
+    "jszip": "^3.7.0"
   }
 }
